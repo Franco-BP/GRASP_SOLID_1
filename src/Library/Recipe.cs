@@ -4,7 +4,6 @@
 // </copyright>
 //-------------------------------------------------------------------------
 
-using System;
 using System.Collections;
 
 namespace Full_GRASP_And_SOLID.Library
@@ -12,6 +11,11 @@ namespace Full_GRASP_And_SOLID.Library
     public class Recipe
     {
         private ArrayList steps = new ArrayList();
+
+        public ArrayList getSteps()
+        {
+            return steps;
+        }
 
         public Product FinalProduct { get; set; }
 
@@ -25,14 +29,19 @@ namespace Full_GRASP_And_SOLID.Library
             this.steps.Remove(step);
         }
 
-        public void PrintRecipe()
+        // Para asignar la responsabilidad, use la diferenciación de Expert, siendo que la
+        // clase Recipe es la que conoce cantidad de cada ítem y horas de uso de cada equipo.
+        public double GetProductionCost()
         {
-            Console.WriteLine($"Receta de {this.FinalProduct.Description}:");
+            double itemCost = 0;
+            double equipmentCost = 0;
             foreach (Step step in this.steps)
             {
-                Console.WriteLine($"{step.Quantity} de '{step.Input.Description}' " +
-                    $"usando '{step.Equipment.Description}' durante {step.Time}");
+                itemCost += step.Input.UnitCost * step.Quantity;
+                equipmentCost += step.Equipment.HourlyCost * step.Time;
             }
+            double totalCost = itemCost + equipmentCost;
+            return totalCost;
         }
     }
 }
