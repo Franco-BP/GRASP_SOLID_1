@@ -22,10 +22,12 @@ namespace Full_GRASP_And_SOLID
             PopulateCatalogs();
 
             Recipe recipe = new Recipe();
+            ConsolePrinter printer = new ConsolePrinter();
+
             recipe.FinalProduct = GetProduct("Café con leche");
             recipe.AddStep(new Step(GetProduct("Café"), 100, GetEquipment("Cafetera"), 120));
             recipe.AddStep(new Step(GetProduct("Leche"), 200, GetEquipment("Hervidor"), 60));
-            recipe.PrintRecipe();
+            printer.PrintRecipe(recipe);
         }
 
         private static void PopulateCatalogs()
@@ -60,6 +62,8 @@ namespace Full_GRASP_And_SOLID
 
         private static Product GetProduct(string description)
         {
+            //from ProductCatalog busca el objeto que coincida, y luego hace "select product" para
+            //seleccionarlo y asignarlo a la variable "query", definida como var para coincidir en tipo.
             var query = from Product product in productCatalog where product.Description == description select product;
             return query.FirstOrDefault();
         }
